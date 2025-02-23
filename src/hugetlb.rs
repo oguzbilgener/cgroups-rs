@@ -181,7 +181,7 @@ impl HugeTlbController {
 }
 
 pub const HUGEPAGESIZE_DIR: &str = "/sys/kernel/mm/hugepages";
-use regex::Regex;
+// use regex::Regex;
 use std::collections::HashMap;
 use std::fs;
 
@@ -263,37 +263,38 @@ pub fn get_decimal_abbrs() -> Vec<String> {
 }
 
 fn parse_size(s: &str, m: &HashMap<String, u128>) -> Result<u128> {
-    let re = Regex::new(r"(?P<num>\d+)(?P<mul>[kKmMgGtTpP]?)[bB]?$");
+    Ok(0)
+    // // let re = Regex::new(r"(?P<num>\d+)(?P<mul>[kKmMgGtTpP]?)[bB]?$");
 
-    if re.is_err() {
-        return Err(Error::new(InvalidBytesSize));
-    }
-    let caps = re.unwrap().captures(s).unwrap();
+    // if re.is_err() {
+    //     return Err(Error::new(InvalidBytesSize));
+    // }
+    // let caps = re.unwrap().captures(s).unwrap();
 
-    let num = caps.name("num");
-    let size: u128 = if let Some(num) = num {
-        let n = num.as_str().trim().parse::<u128>();
-        if n.is_err() {
-            return Err(Error::new(InvalidBytesSize));
-        }
-        n.unwrap()
-    } else {
-        return Err(Error::new(InvalidBytesSize));
-    };
+    // let num = caps.name("num");
+    // let size: u128 = if let Some(num) = num {
+    //     let n = num.as_str().trim().parse::<u128>();
+    //     if n.is_err() {
+    //         return Err(Error::new(InvalidBytesSize));
+    //     }
+    //     n.unwrap()
+    // } else {
+    //     return Err(Error::new(InvalidBytesSize));
+    // };
 
-    let q = caps.name("mul");
-    let mul: u128 = if let Some(q) = q {
-        let t = m.get(q.as_str());
-        if let Some(t) = t {
-            *t
-        } else {
-            return Err(Error::new(InvalidBytesSize));
-        }
-    } else {
-        return Err(Error::new(InvalidBytesSize));
-    };
+    // let q = caps.name("mul");
+    // let mul: u128 = if let Some(q) = q {
+    //     let t = m.get(q.as_str());
+    //     if let Some(t) = t {
+    //         *t
+    //     } else {
+    //         return Err(Error::new(InvalidBytesSize));
+    //     }
+    // } else {
+    //     return Err(Error::new(InvalidBytesSize));
+    // };
 
-    Ok(size * mul)
+    // Ok(size * mul)
 }
 
 fn custom_size(mut size: f64, base: f64, m: &[String]) -> String {
